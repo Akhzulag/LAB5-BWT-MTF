@@ -13,7 +13,6 @@ pub fn build_t(array: &[u8]) -> Vec<usize> {
     let mut t: Vec<usize> = vec![0; array.len()];
     for (i, el) in array.iter().enumerate().rev() {
         let el = *el as usize;
-        // println!("{el},{} -- {}", i, c[el] - 1);
         t[c[el] - 1] = i;
         c[el] -= 1;
     }
@@ -24,7 +23,6 @@ pub fn build_t(array: &[u8]) -> Vec<usize> {
 pub fn radix_sort(array: &mut Vec<Vec<u8>>, block: usize) {
     let k = 256;
     let mut c = vec![0; k];
-    // let b = vec![Vec::new(); array.len()];
 
     array.iter().for_each(|row| {
         c[row[1] as usize] += 1;

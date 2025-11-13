@@ -32,9 +32,6 @@ pub fn encode(file_read: &str, file_write: &str) -> Result<()> {
 
         let mut a = build_matrix(&buf, n);
         radix_sort(&mut a, n + 1);
-        // a.iter().for_each(|row| {
-        //     println!("{:?}", row[0]);
-        // });
         let len_r = a[0].len();
         a.iter().enumerate().for_each(|(i, row)| {
             writer.write_all(&[row[len_r - 1]]).expect("BWR: Error");
@@ -42,8 +39,7 @@ pub fn encode(file_read: &str, file_write: &str) -> Result<()> {
                 pos = i;
             }
         });
-        // println!("pos:{pos}");
-        // println!("");
+
         writer.write_all(&[pos as u8]).expect("BWR: Error");
         println!("{i}: size: {}", n + 1);
         i += 1;

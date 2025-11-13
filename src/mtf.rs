@@ -155,7 +155,6 @@ pub fn encode(file_read: &str, file_write: &str) -> Result<()> {
         buf.iter().take(n).for_each(|x| {
             let index = alphabet.find_remove(x).unwrap();
             alphabet.push_front(*x);
-            // println!("{:?}", index);
             writer
                 .write_all(&[index as u8])
                 .expect("MTF: Encode error writing");
