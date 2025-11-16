@@ -43,3 +43,37 @@ pub fn radix_sort(array: &mut Vec<Vec<u8>>, block: usize) {
         *array = b;
     }
 }
+
+pub fn build_sa(text: &[u8]) -> Vec<usize> {
+    let n = text.len();
+    let mut sa: Vec<usize> = (0..n).collect();
+    let mut rank: Vec<i32> = text.iter().map(|&c| c as i32).collect();
+    let mut tmp = vec![0i32; n];
+
+    let mut k = 1;
+    while k < n {
+        sa.sort_by_key(|&i| {
+            let r1 = rank[i];
+            let r2 = if i + k < n { rank[i + k] } else { -1 };
+            (r1, r2)
+        });
+
+        tmp[sa[0]] = 0;
+        for i in 1..n {
+            let a = sa[i - 1];
+            let b = sa[i];
+            let prev = (rank[a], if a + k < n { rank[a + k] } else { -1 });
+            let now = (rank[b], if b + k < n { rank[b + k] } else { -1 });
+            tmp[b] = tmp[a] + if prev != now { 1 } else { 0 };
+        }
+
+        rank.copy_from_slice(&tmp);
+        if rank[sa[n - 1]] == (n as i32 - 1) {
+            break;
+        }
+
+        k <<= 1;
+    }
+
+    sa
+}
